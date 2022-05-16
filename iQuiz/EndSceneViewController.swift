@@ -17,11 +17,14 @@ class EndSceneViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        scoreLabel.text = "you got \(score!)/\(totalNum!) questions correct"
+        scoreLabel.text = "you got \n \(score!)/\(totalNum!) questions \n correct"
     }
     
     
-
+    @IBAction func backToHome(_ sender: Any) {
+        performSegue(withIdentifier: "home", sender: self)
+    }
+    
     /*
     // MARK: - Navigation
 

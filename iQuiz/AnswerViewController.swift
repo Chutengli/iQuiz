@@ -8,14 +8,21 @@
 import UIKit
 
 class AnswerViewController: UIViewController {
-
+    @IBOutlet weak var answerText: UILabel!
+    
+    var answer: String!
+    var question: String!
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        answerText.text = "the correct answer of \n \(question!) is \n \(answer!)"
     }
     
-
+    @IBAction func dissmissPage(_ sender: Any) {
+        self.dismiss(animated: true, completion: nil)
+    }
+    
     /*
     // MARK: - Navigation
 

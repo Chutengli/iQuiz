@@ -37,8 +37,18 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         cell.config(title: QUIZS[indexPath.row]["title"]!, iconName: QUIZS[indexPath.row]["iconName"]!, description: QUIZS[indexPath.row]["description"]!)
         
-        print(cell.cellIcon)
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        performSegue(withIdentifier: "showQuiz", sender: self)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let destination = segue.destination as? QuizVCViewController {
+            destination.category = QUIZS[(table.indexPathForSelectedRow?.row)!]["title"]
+            table.deselectRow(at: table.indexPathForSelectedRow!, animated: true)
+        }
     }
     
     @IBAction func settingButtonClicked(_ sender: Any) {

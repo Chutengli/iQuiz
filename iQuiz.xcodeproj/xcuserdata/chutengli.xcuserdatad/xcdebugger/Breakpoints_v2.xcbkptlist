@@ -3,4 +3,70 @@
    uuid = "654E7E6E-FF87-45CA-A191-4B0873E7F91B"
    type = "1"
    version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "E7082120-31D0-45EC-8E98-AD3DC74E47A5"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "iQuiz/ViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "13"
+            endingLineNumber = "13"
+            landmarkName = "QUIZS"
+            landmarkType = "24">
+            <Locations>
+               <Location
+                  uuid = "E7082120-31D0-45EC-8E98-AD3DC74E47A5 - 77b7b523545377cb"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "iQuiz.ViewController.init(nibName: Swift.Optional&lt;Swift.String&gt;, bundle: Swift.Optional&lt;__C.NSBundle&gt;) -&gt; iQuiz.ViewController"
+                  moduleName = "iQuiz"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/chutengli/Desktop/UW/Spring%202022/Info%20449/iquiz/iQuiz/iQuiz/ViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "16"
+                  endingLineNumber = "16"
+                  offsetFromSymbolStart = "1368">
+               </Location>
+               <Location
+                  uuid = "E7082120-31D0-45EC-8E98-AD3DC74E47A5 - 882d8a056dc00900"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "iQuiz.ViewController.init(coder: __C.NSCoder) -&gt; Swift.Optional&lt;iQuiz.ViewController&gt;"
+                  moduleName = "iQuiz"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/chutengli/Desktop/UW/Spring%202022/Info%20449/iquiz/iQuiz/iQuiz/ViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "16"
+                  endingLineNumber = "16"
+                  offsetFromSymbolStart = "1344">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "FD8A81DB-F996-40C3-BA56-C17C25EEEB96"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "iQuiz/EndSceneViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "29"
+            endingLineNumber = "29"
+            landmarkName = "EndSceneViewController"
+            landmarkType = "3">
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
 </Bucket>
