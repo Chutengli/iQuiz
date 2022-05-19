@@ -18,6 +18,7 @@ class EndSceneViewController: UIViewController {
 
         // Do any additional setup after loading the view.
         scoreLabel.text = "you got \n \(score!)/\(totalNum!) questions \n correct"
+        
     }
     
     

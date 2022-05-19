@@ -7,11 +7,6 @@
 
 import UIKit
 
-struct QuizQuestions {
-    let text: String
-    var answers: [Answer]
-}
-
 struct Answer {
     let text: String
     let corrent: Bool
@@ -24,61 +19,16 @@ class QuizVCViewController: UIViewController, UITableViewDelegate, UITableViewDa
     @IBOutlet weak var nextButton: UIButton!
     
     var category: String!
-    var currentQuestion: QuizQuestions!
-    var quizSet: [QuizQuestions]!
+    var currentQuestion: Question!
+    var currentAnswers: [Answer] = []
+    
+    var quizSet: [Question]!
     var score = 0
     var showedAnswer: Bool!
     var selectedIndex: Int!
     
-    let mathQuestions = [
-        QuizQuestions(text: "1 + 1 = ?", answers: [
-            Answer(text: "2", corrent: true),
-            Answer(text: "1", corrent: false),
-            Answer(text: "3", corrent: false),
-            Answer(text: "4", corrent: false),
-        ]),
-        QuizQuestions(text: "1 + 2 = ?", answers: [
-            Answer(text: "2", corrent: false),
-            Answer(text: "1", corrent: false),
-            Answer(text: "3", corrent: true),
-            Answer(text: "4", corrent: false),
-        ]),
-        QuizQuestions(text: "2 + 2 = ?", answers: [
-            Answer(text: "2", corrent: false),
-            Answer(text: "1", corrent: false),
-            Answer(text: "3", corrent: false),
-            Answer(text: "4", corrent: true),
-        ]),
-        QuizQuestions(text: "3 + 3 = ?", answers: [
-            Answer(text: "6", corrent: true),
-            Answer(text: "1", corrent: false),
-            Answer(text: "3", corrent: false),
-            Answer(text: "4", corrent: false),
-        ]),
-    ]
-    
-    let marvelQuestions = [
-        QuizQuestions(text: "Tony Stark?", answers: [
-            Answer(text: "Iron Man", corrent: true),
-            Answer(text: "American Captain", corrent: false),
-            Answer(text: "Hulk", corrent: false),
-            Answer(text: "Spider Man", corrent: false),
-        ]),
-        QuizQuestions(text: "Not Marvel Hero?", answers: [
-            Answer(text: "Iron Man", corrent: false),
-            Answer(text: "Amcerican Captain", corrent: false),
-            Answer(text: "Bat Man", corrent: true),
-            Answer(text: "Spider Man", corrent: false),
-        ])
-    ]
-    
-    let scienceQuestions = [
-        QuizQuestions(text: "Water?", answers: [
-            Answer(text: "H2O", corrent: true),
-            Answer(text: "SO2", corrent: false),
-            Answer(text: "Fu", corrent: false),
-        ])
-    ]
+    var questions: [Question]!
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -91,22 +41,19 @@ class QuizVCViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     private func setupQuestion() {
-        let question: QuizQuestions?
-        switch category {
-        case "Mathematics":
-            quizSet = mathQuestions
-            question = mathQuestions.first
-        case "Marvel Super Heroes":
-            quizSet = marvelQuestions
-            question = marvelQuestions.first
-        default:
-            quizSet = scienceQuestions
-            question = scienceQuestions.first
+        quizSet = questions
+        let question = questions.first
+        for i in stride(from: 0, through: (question?.answers!.count)! - 1, by: 1) {
+            if (i + 1 == Int((question?.answer)!)) {
+                currentAnswers.append(Answer(text: (question?.answers![i])!, corrent: true))
+            } else {
+                currentAnswers.append(Answer(text: (question?.answers![i])!, corrent: false))
+            }
         }
         config(question: question!)
     }
     
-    private func config(question: QuizQuestions) {
+    private func config(question: Question) {
         questionLabel.text = question.text
         currentQuestion = question
     }
@@ -114,12 +61,12 @@ class QuizVCViewController: UIViewController, UITableViewDelegate, UITableViewDa
     // Table view functions
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return currentQuestion?.answers.count ?? 0
+        return currentQuestion?.answers?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "quizCell", for: indexPath)
-        cell.textLabel?.text = currentQuestion?.answers[indexPath.row].text
+        cell.textLabel?.text = currentAnswers[indexPath.row].text
         return cell
     }
     
@@ -133,7 +80,7 @@ class QuizVCViewController: UIViewController, UITableViewDelegate, UITableViewDa
         }
         
         if (selectedIndex != nil) {
-            let answer = question.answers[selectedIndex]
+            let answer = currentAnswers[selectedIndex]
             
             if (answer.corrent) {
                 score += 1
@@ -147,7 +94,7 @@ class QuizVCViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     
-    private func nextQuestion(question: QuizQuestions) {
+    private func nextQuestion(question: Question) {
         if let index = quizSet.firstIndex(where: {$0.text == question.text}) {
             if (index < quizSet.count - 1) {
                 // next quiestion
@@ -163,15 +110,15 @@ class QuizVCViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let destination = segue.destination as? AnswerViewController {
-            var correct: String?
-            for answer in currentQuestion.answers {
+            var correctAnswer: String?
+            for answer in currentAnswers {
                 if (answer.corrent) {
-                    correct = answer.text
+                    correctAnswer = answer.text
                     break
                 }
             }
             destination.question = currentQuestion.text
-            destination.answer = correct
+            destination.answer = correctAnswer
         }
         
         if let destination = segue.destination as? EndSceneViewController {

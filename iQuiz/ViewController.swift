@@ -8,11 +8,16 @@
 import UIKit
 
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-    let QUIZS = [
-        ["title": "Mathematics", "iconName": "math_icon", "description": "A collection of Math Quizes"],
-        ["title": "Marvel Super Heroes", "iconName": "marvel_icon", "description": "A collection of Marvel Super Heroes Quizes"],
-        ["title": "Science", "iconName": "science_icon", "description": "A collection of Science Quizes"]
-    ]
+    let fileName = "quiz"
+    
+    var QUIZS: [Quiz]? {
+        didSet {
+            DispatchQueue.main.async {
+                self.table.reloadData()
+            }
+        }
+    }
+    
     @IBOutlet weak var table: UITableView!
     @IBOutlet weak var settingButton: UIBarButtonItem!
     
@@ -20,22 +25,31 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         super.viewDidLoad()
         
         // Do any additional setup after loading the view.
+        if (checkFileExist(toFileName: fileName + ".json")) {
+            do {
+                let json = try loadJSON(withFilename: fileName)
+                if (json != nil) {
+                    let jsonData = try JSONSerialization.data(withJSONObject: json!, options: .prettyPrinted)
+                    QUIZS = try! JSONDecoder().decode([Quiz].self, from: jsonData)
+                }
+            } catch {
+                alertMessage("Error happened when loading data")
+            }
+        }
+        
         table.register(TableViewCell.nib(), forCellReuseIdentifier: TableViewCell.identifier)
         table.delegate = self
         table.dataSource = self
-        
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return QUIZS.count
+        return QUIZS?.count ?? 0
     }
     
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCell.identifier, for: indexPath) as! TableViewCell
-        
-        
-        cell.config(title: QUIZS[indexPath.row]["title"]!, iconName: QUIZS[indexPath.row]["iconName"]!, description: QUIZS[indexPath.row]["description"]!)
+        cell.config(title: QUIZS![indexPath.row].title!, description: QUIZS![indexPath.row].desc!)
         
         return cell
     }
@@ -46,16 +60,103 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let destination = segue.destination as? QuizVCViewController {
-            destination.category = QUIZS[(table.indexPathForSelectedRow?.row)!]["title"]
+            destination.questions = QUIZS![(table.indexPathForSelectedRow?.row)!].questions
+            // destination.category = QUIZS[(table.indexPathForSelectedRow?.row)!]["title"]
             table.deselectRow(at: table.indexPathForSelectedRow!, animated: true)
         }
     }
     
+    // get URL from setting popup
     @IBAction func settingButtonClicked(_ sender: Any) {
-        let alert = UIAlertController(title: "Setting", message: "Settings go here", preferredStyle: UIAlertController.Style.alert)
-        alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
+        let alert = UIAlertController(title: "Setting", message: "Enter URL", preferredStyle: UIAlertController.Style.alert)
+        alert.addTextField{ textField in textField.placeholder = "Enter URL"}
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: "Retrieve", style: .default, handler: { action in
+            guard let url = alert.textFields?.first?.text else {
+                print("input proper text!")
+                return
+            }
+            
+            let request = URLRequest(url: URL(string: url)!)
+            
+            URLSession.shared.dataTask(with: request) { [weak self] data, response, error in
+                guard self != nil else { return }
+                guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200
+                else {
+                    DispatchQueue.main.async {
+                        self!.alertMessage("Bad Request/Bad Response")
+                    }
+                    return
+                }
+                if let data = data {
+                    self!.QUIZS = try! JSONDecoder().decode([Quiz].self, from: data)
+                    do {
+                        let json = try JSONSerialization.jsonObject(with: data, options: .mutableLeaves)
+                        let res = try self!.saveToJson(jsonObject: json, toFileName: self!.fileName)
+                        if (!res) {
+                            self!.alertMessage("Error happened when saving data")
+                        }
+                    } catch {
+                        self!.alertMessage("Error happened when saving data")
+                    }
+                } else {
+                    DispatchQueue.main.async {
+                        self!.alertMessage("Error happened when retrieving data")
+                    }
+                    return
+                }
+            }.resume()
+        }))
         self.present(alert, animated: true, completion: nil)
     }
     
+    func alertMessage(_ msg: String) {
+        let alertController = UIAlertController(title: "Error", message: msg, preferredStyle: UIAlertController.Style.alert)
+        alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        self.present(alertController, animated: true, completion: nil)
+    }
+    
+    func saveToJson(jsonObject: Any, toFileName fileName: String) throws -> Bool {
+        let fm = FileManager.default
+        let urls = fm.urls(for: .documentDirectory, in: .userDomainMask)
+        if let url = urls.first {
+            var fileURL = url.appendingPathComponent(fileName)
+            fileURL = fileURL.appendingPathExtension("json")
+            let data = try JSONSerialization.data(withJSONObject: jsonObject, options: [.prettyPrinted])
+            try data.write(to: fileURL, options: [.atomicWrite])
+            return true
+        }
+        return false
+    }
+    
+    func loadJSON(withFilename fileName: String) throws -> Any? {
+        let fm = FileManager.default
+        let urls = fm.urls(for: .documentDirectory, in: .userDomainMask)
+        if let url = urls.first {
+            var fileURL = url.appendingPathComponent(fileName)
+            fileURL = fileURL.appendingPathExtension("json")
+            let data = try Data(contentsOf: fileURL)
+            let jsonObject = try JSONSerialization.jsonObject(with: data, options: [.mutableContainers, .mutableLeaves])
+            return jsonObject
+        }
+        
+        return nil
+    }
+    
+    func checkFileExist(toFileName fileName: String) -> Bool {
+        let path = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as String
+        let url = NSURL(fileURLWithPath: path)
+        if let pathComponent = url.appendingPathComponent(fileName) {
+            let filePath = pathComponent.path
+            let fileManager = FileManager.default
+            if fileManager.fileExists(atPath: filePath) {
+                return true
+            } else {
+                return false
+            }
+        } else {
+            return false
+        }
+    }
 }
 

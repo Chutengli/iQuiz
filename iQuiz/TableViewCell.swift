@@ -14,13 +14,11 @@ class TableViewCell: UITableViewCell {
         return UINib(nibName: "TableViewCell", bundle: nil)
     }
     
-    public func config(title: String, iconName: String, description: String) {
+    public func config(title: String, description: String) {
         cellTitle.text = title
         cellDescription.text = description
-        cellIcon.image = UIImage(named: iconName)
     }
 
-    @IBOutlet weak var cellIcon: UIImageView!
     @IBOutlet weak var cellTitle: UILabel!
     @IBOutlet weak var cellDescription: UITextView!
     

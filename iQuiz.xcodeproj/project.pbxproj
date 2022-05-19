@@ -16,6 +16,8 @@
 		B018656C282B2EE70089DAB0 /* iQuizTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B018656B282B2EE70089DAB0 /* iQuizTests.swift */; };
 		B0186576282B2EE70089DAB0 /* iQuizUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0186575282B2EE70089DAB0 /* iQuizUITests.swift */; };
 		B0186578282B2EE70089DAB0 /* iQuizUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0186577282B2EE70089DAB0 /* iQuizUITestsLaunchTests.swift */; };
+		B0AC7FD82835E7C300094F4B /* Quiz.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0AC7FD72835E7C300094F4B /* Quiz.swift */; };
+		B0AC7FDA2835E80000094F4B /* Question.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0AC7FD92835E80000094F4B /* Question.swift */; };
 		B0DF24C8282CC0220081C55F /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0DF24C6282CC0220081C55F /* TableViewCell.swift */; };
 		B0DF24C9282CC0220081C55F /* TableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B0DF24C7282CC0220081C55F /* TableViewCell.xib */; };
 		B0DF24CB283222950081C55F /* QuizVCViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0DF24CA283222950081C55F /* QuizVCViewController.swift */; };
@@ -54,6 +56,8 @@
 		B0186571282B2EE70089DAB0 /* iQuizUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iQuizUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B0186575282B2EE70089DAB0 /* iQuizUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iQuizUITests.swift; sourceTree = "<group>"; };
 		B0186577282B2EE70089DAB0 /* iQuizUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iQuizUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		B0AC7FD72835E7C300094F4B /* Quiz.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Quiz.swift; sourceTree = "<group>"; };
+		B0AC7FD92835E80000094F4B /* Question.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Question.swift; sourceTree = "<group>"; };
 		B0DF24C6282CC0220081C55F /* TableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
 		B0DF24C7282CC0220081C55F /* TableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TableViewCell.xib; sourceTree = "<group>"; };
 		B0DF24CA283222950081C55F /* QuizVCViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizVCViewController.swift; sourceTree = "<group>"; };
@@ -113,6 +117,8 @@
 				B0186554282B2EE40089DAB0 /* AppDelegate.swift */,
 				B0186556282B2EE40089DAB0 /* SceneDelegate.swift */,
 				B0186558282B2EE40089DAB0 /* ViewController.swift */,
+				B0AC7FD72835E7C300094F4B /* Quiz.swift */,
+				B0AC7FD92835E80000094F4B /* Question.swift */,
 				B018655A282B2EE40089DAB0 /* Main.storyboard */,
 				B0DF24CC283261230081C55F /* AnswerViewController.swift */,
 				B0DF24CA283222950081C55F /* QuizVCViewController.swift */,
@@ -277,9 +283,11 @@
 				B0DF24CD283261230081C55F /* AnswerViewController.swift in Sources */,
 				B0186559282B2EE40089DAB0 /* ViewController.swift in Sources */,
 				B0DF24C8282CC0220081C55F /* TableViewCell.swift in Sources */,
+				B0AC7FDA2835E80000094F4B /* Question.swift in Sources */,
 				B0186555282B2EE40089DAB0 /* AppDelegate.swift in Sources */,
 				B0186557282B2EE40089DAB0 /* SceneDelegate.swift in Sources */,
 				B0DF24CF283269650081C55F /* EndSceneViewController.swift in Sources */,
+				B0AC7FD82835E7C300094F4B /* Quiz.swift in Sources */,
 				B0DF24CB283222950081C55F /* QuizVCViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -457,6 +465,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = CCQ3H2XNY5;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = iQuiz/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -484,6 +493,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = CCQ3H2XNY5;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = iQuiz/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
