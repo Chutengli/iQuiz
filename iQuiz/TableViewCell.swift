@@ -8,6 +8,9 @@
 import UIKit
 
 class TableViewCell: UITableViewCell {
+    @IBOutlet weak var icon: UIImageView!
+    
+    let iconName: String = "science_icon"
     static let identifier = "TableViewCell"
     
     static func nib() -> UINib {
@@ -27,6 +30,7 @@ class TableViewCell: UITableViewCell {
         super.awakeFromNib()
         // Initialization code
         cellDescription.isEditable = false
+        icon.image = UIImage(named: iconName)
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

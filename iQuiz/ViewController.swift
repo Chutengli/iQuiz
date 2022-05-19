@@ -35,6 +35,31 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             } catch {
                 alertMessage("Error happened when loading data")
             }
+        } else {
+            let defaultData = """
+            [{"title":"Default Science!",
+            "desc":"Default SCIENCE!",
+            "questions":[
+                {
+                    "text":"Default",
+                    "answer":"1",
+                    "answers":[
+                        "Default Answer1",
+                        "Default Answer2",
+                        "Default Answer3",
+                        "Default Answer4"
+                    ]
+                }
+                ]
+            }]
+            """
+            let jsonData = defaultData.data(using: .utf8)
+            print(type(of: jsonData!))
+            do {
+                self.QUIZS = try JSONDecoder().decode([Quiz].self, from: jsonData!)
+            } catch {
+                alertMessage("Error Happened when loading default data")
+            }
         }
         
         table.register(TableViewCell.nib(), forCellReuseIdentifier: TableViewCell.identifier)
@@ -84,10 +109,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200
                 else {
                     DispatchQueue.main.async {
-                        self!.alertMessage("Bad Request/Bad Response")
+                        self!.alertMessage("Bad Request/Bad Response/Internet Error")
                     }
                     return
                 }
+                
+                
                 if let data = data {
                     self!.QUIZS = try! JSONDecoder().decode([Quiz].self, from: data)
                     do {
@@ -121,6 +148,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         let urls = fm.urls(for: .documentDirectory, in: .userDomainMask)
         if let url = urls.first {
             var fileURL = url.appendingPathComponent(fileName)
+            print(fileURL)
             fileURL = fileURL.appendingPathExtension("json")
             let data = try JSONSerialization.data(withJSONObject: jsonObject, options: [.prettyPrinted])
             try data.write(to: fileURL, options: [.atomicWrite])
@@ -157,6 +185,20 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         } else {
             return false
         }
+    }
+    
+    // for test use
+    func deleteFile() {
+        let documentsUrl =  FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+
+        do {
+            let fileURLs = try FileManager.default.contentsOfDirectory(at: documentsUrl,
+                                                                       includingPropertiesForKeys: nil,
+                                                                       options: .skipsHiddenFiles)
+            for fileURL in fileURLs where fileURL.pathExtension == "json" {
+                try FileManager.default.removeItem(at: fileURL)
+            }
+        } catch  { print(error) }
     }
 }
 

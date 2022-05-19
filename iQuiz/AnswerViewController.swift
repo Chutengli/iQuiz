@@ -16,7 +16,7 @@ class AnswerViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        answerText.text = "the correct answer of \n \(question!) is \n \(answer!)"
+        answerText.text = "the correct answer of \(question!) is \(answer!)"
     }
     
     @IBAction func dissmissPage(_ sender: Any) {

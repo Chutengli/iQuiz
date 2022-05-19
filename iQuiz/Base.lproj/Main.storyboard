@@ -185,8 +185,11 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="6" baselineAdjustment="alignBaselines" minimumScaleFactor="0.25" translatesAutoresizingMaskIntoConstraints="NO" id="9VS-Cl-cco">
-                                <rect key="frame" x="64" y="205" width="286" height="486"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.25" translatesAutoresizingMaskIntoConstraints="NO" id="9VS-Cl-cco">
+                                <rect key="frame" x="64" y="129" width="286" height="596"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="9VS-Cl-cco" secondAttribute="height" multiplier="143:298" id="Ap4-gX-6LJ"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="35"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -215,9 +218,10 @@
                         <viewLayoutGuide key="safeArea" id="nLL-Nt-WAG"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="9VS-Cl-cco" firstAttribute="centerY" secondItem="O49-Oy-QP1" secondAttribute="centerY" id="CZs-3B-AUe"/>
-                            <constraint firstItem="9VS-Cl-cco" firstAttribute="centerX" secondItem="O49-Oy-QP1" secondAttribute="centerX" id="Jdo-uP-lxP"/>
+                            <constraint firstItem="9VS-Cl-cco" firstAttribute="top" secondItem="nLL-Nt-WAG" secondAttribute="top" constant="85" id="3VE-7G-N6i"/>
                             <constraint firstItem="nLL-Nt-WAG" firstAttribute="trailing" secondItem="ISY-ii-kJY" secondAttribute="trailing" constant="39" id="N5S-ni-1Wf"/>
+                            <constraint firstItem="nLL-Nt-WAG" firstAttribute="trailing" secondItem="9VS-Cl-cco" secondAttribute="trailing" constant="64" id="Zyh-d7-teN"/>
+                            <constraint firstItem="9VS-Cl-cco" firstAttribute="leading" secondItem="nLL-Nt-WAG" secondAttribute="leading" constant="64" id="pda-jn-eJZ"/>
                             <constraint firstItem="nLL-Nt-WAG" firstAttribute="bottom" secondItem="ISY-ii-kJY" secondAttribute="bottom" constant="44" id="qe4-fY-wyc"/>
                         </constraints>
                     </view>
