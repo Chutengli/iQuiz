@@ -30,7 +30,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 let json = try loadJSON(withFilename: fileName)
                 if (json != nil) {
                     let jsonData = try JSONSerialization.data(withJSONObject: json!, options: .prettyPrinted)
-                    QUIZS = try! JSONDecoder().decode([Quiz].self, from: jsonData)
+                    QUIZS = try? JSONDecoder().decode([Quiz].self, from: jsonData)
                 }
             } catch {
                 alertMessage("Error happened when loading data")
@@ -102,6 +102,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 return
             }
             
+            if (url.isEmpty) {
+                self.alertMessage("Entry Cannot be Empty")
+                return
+            }
             let request = URLRequest(url: URL(string: url)!)
             
             URLSession.shared.dataTask(with: request) { [weak self] data, response, error in
@@ -116,7 +120,43 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 
                 
                 if let data = data {
-                    self!.QUIZS = try! JSONDecoder().decode([Quiz].self, from: data)
+                    let temp = try? JSONDecoder().decode([Quiz].self, from: data)
+
+                    // check data
+                    if (temp == nil) {
+                        DispatchQueue.main.async {
+                            self!.alertMessage("Bad Data Received")
+                        }
+                        if (!(self!.checkFileExist(toFileName: self!.fileName + ".json"))) {
+                            return
+                        } else {
+                            do {
+                                let json = try self!.loadJSON(withFilename: self!.fileName)
+                                if (json != nil) {
+                                    let jsonData = try JSONSerialization.data(withJSONObject: json!, options: .prettyPrinted)
+                                    self!.QUIZS = try? JSONDecoder().decode([Quiz].self, from: jsonData)
+                                }
+                            } catch {
+                                DispatchQueue.main.async {
+                                    self!.alertMessage("Bad/Empty Data Received")
+                                }
+                            }
+                        }
+                        return
+                    }
+                    
+                    for quiz in temp ?? [] {
+                        if (quiz.title == nil || quiz.desc == nil || quiz.questions == nil) {
+                            DispatchQueue.main.async {
+                                self!.alertMessage("Bad/Empty Data Received")
+                            }
+                            
+                            return
+                        }
+                    }
+                    
+                    self!.QUIZS = temp
+                    
                     do {
                         let json = try JSONSerialization.jsonObject(with: data, options: .mutableLeaves)
                         let res = try self!.saveToJson(jsonObject: json, toFileName: self!.fileName)
