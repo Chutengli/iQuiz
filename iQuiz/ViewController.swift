@@ -113,7 +113,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200
                 else {
                     DispatchQueue.main.async {
-                        self!.alertMessage("Bad Request/Bad Response/Internet Error")
+                        self!.alertMessage("Internet Error")
                     }
                     return
                 }
@@ -138,7 +138,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                                 }
                             } catch {
                                 DispatchQueue.main.async {
-                                    self!.alertMessage("Bad/Empty Data Received")
+                                    self!.alertMessage("Bad Data Received")
                                 }
                             }
                         }

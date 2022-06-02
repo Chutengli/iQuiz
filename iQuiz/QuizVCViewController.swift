@@ -20,7 +20,7 @@ class QuizVCViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     var category: String!
     var currentQuestion: Question!
-    var currentAnswers: [Answer] = []
+    var currentAnswers: [Answer]!
     
     var quizSet: [Question]!
     var score = 0
@@ -36,11 +36,11 @@ class QuizVCViewController: UIViewController, UITableViewDelegate, UITableViewDa
         // Do any additional setup after loading the view.
         questionAnswers.delegate = self
         questionAnswers.dataSource = self
-        
         setupQuestion()
     }
     
     private func setupQuestion() {
+        currentAnswers = []
         quizSet = questions
         let question = questions.first
         for i in stride(from: 0, through: (question?.answers!.count)! - 1, by: 1) {
@@ -100,6 +100,17 @@ class QuizVCViewController: UIViewController, UITableViewDelegate, UITableViewDa
                 // next quiestion
                 let nextQuestion = quizSet[index + 1]
                 config(question: nextQuestion)
+                
+                currentAnswers = []
+                
+                for i in stride(from: 0, through: (nextQuestion.answers!.count) - 1, by: 1) {
+                    if (i + 1 == Int((nextQuestion.answer)!)) {
+                        currentAnswers.append(Answer(text: (nextQuestion.answers![i]), corrent: true))
+                    } else {
+                        currentAnswers.append(Answer(text: (nextQuestion.answers![i]), corrent: false))
+                    }
+                }
+                
                 questionAnswers.reloadData()
             } else {
                 // end the game
